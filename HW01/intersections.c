@@ -42,7 +42,7 @@ int ray_disk_intersection(ray_t observer, disk_t obj, vector_t *intersection) {
   //d; direction term
   vector_t d = observer.dir;
   //s; start term
-  vector_t s = observer.start);
+  vector_t s = observer.start;
 
   float t;
 
@@ -54,7 +54,7 @@ int ray_disk_intersection(ray_t observer, disk_t obj, vector_t *intersection) {
     //calculate t using formula derived in latex doc
     t = (dot_product(n,difference(c-s)))/(dot_product(n,d));
 
-    //if t ia negative, vector points away from disk
+    //if t is negative, vector points away from disk
     if(t<0){
       return 0;
     } else{
@@ -64,7 +64,7 @@ int ray_disk_intersection(ray_t observer, disk_t obj, vector_t *intersection) {
       double dist = distance(obj.center,p);
 
       if(dist<=obj.radius){
-	intersection = p;
+	copy_vector(p,intersection);
 	return 1;
       }
       
@@ -80,12 +80,112 @@ int ray_disk_intersection(ray_t observer, disk_t obj, vector_t *intersection) {
 int ray_cylinder_intersection(ray_t observer, cylinder_t obj, vector_t *intersection) {
   //Question 5: Modify this function to compute an intersection
 
+  //d; direction term
+  vector_t d = observer.dir;
+  //s; start term
+  vector_t s = observer.start;
+
+  //a; axis
+  vector_t a = obj.axis;
+  //c; center
+  vector_t c = obj.center;
+  //r; radius
+  double r = obj.radius;
+  //h; height
+  double h = obj.height;
+
+  //take discriminant
+  //s_tilda is a substitute variable - holds value
+  //s-c-a(a*s)+a(a*c)
+  vector_t s_tilda = difference(s,difference(c,sum(scalar_product(dot_product(a,s),a),scalar_product(dot_product(a,c),a))));
+  float dDotD = dot_product(d,d);
+  float stDotSt = dot_product(s_tilda,s_tilda);
+  float discriminant = 2*dot_product(d,dDotD)-(4*dot_product(dDotD,stDotSt));
+
+  //check if disc is <0
+  if (discriminant<0){
+    return 0;
+  }
+
+  //find p
+  vector_t p = sum(s,scalar_product(t,d));
   
+  //is point of intersection p between base point c and c+h
+
+  //find point on c base closest to p
+  //drop vector starting at p parallel to axis
+  ray_t tempRay = new_ray(p,-a);
+  //find intersection point with base disk
+  disk_t tempDisk = new_disk(r,c,a);
+  //p_tilda will hold point on base closest to p
+  vector_t p_tilda;
+
+  ray_disk_intersection(tempRay,tempDisk,p_tilda);
+
+  //now is p between p_tilda and h
+  float dist = distance(p_tilda,p);
+  if(dist<=h){
+    copy_vector(p,intersection);
+    return 1;
+  }
   
   return 0;
 }
 
 int ray_cone_intersection(ray_t observer, cone_t obj, vector_t *intersection) {
   //Question 7: Modify this function to compute an intersection
+
+    //d; direction term
+  vector_t d = observer.dir;
+  //s; start term
+  vector_t s = observer.start;
+
+  //a; axis
+  vector_t a = obj.axis;
+  //c; center
+  vector_t c = obj.center;
+  //r; radius
+  double r = obj.radius;
+  //h; height
+  double h = obj.height;
+
+  //take quadratic
+  float div = r/h;
+  div = div*div;
+  float a_term = d.x*d.x + d.y*d.y - div*d.z*d.z;
+  float b_term = 2*(d.x*s.x + d.y*s.y - div*d.z*(s.z-h));
+  float c_term = s.x*s.x + s.y*s.y - div*(s.z-h)*(s.z-h);
+  float discriminant = b_term*b_term - 4*a_term*c_term;
+
+  //check if disc is <0
+  if (discriminant<0){
+    return 0;//no intersection
+  }
+
+  //find p
+  vector_t p = sum(s,scalar_product(t,d));
+  
+  //is point of intersection p between dummy point b and b-h
+
+  //find point on c base closest to p
+  //drop vector starting at p parallel to axis
+  ray_t tempRay = new_ray(p,-a);
+  //create dummy disk normal to axis a with center at vertex v
+  disk_t tempDisk = new_disk(r,v,a);
+  //p_tilda will hold point on base closest to p
+  vector_t p_tilda;
+
+  ray_disk_intersection(tempRay,tempDisk,p_tilda);
+
+  //now is p between p_tilda and h
+  float dist = distance(p_tilda,p);
+  if(dist<=h){
+    copy_vector(p,intersection);
+    return 1;
+  }
+  
+  return 0;
+}
+  
   return 0;
 }
