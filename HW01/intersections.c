@@ -39,22 +39,37 @@ int ray_sphere_intersection(ray_t observer, sphere_t obj, vector_t *intersection
 int ray_disk_intersection(ray_t observer, disk_t obj, vector_t *intersection) {
   //Question 3: Modify this function to compute an intersection
 
-  //linear term inside the norm
-  vector_t h_term = observer.dir;
-  //constant term inside the norm
-  vector_t const_term = difference(observer.start,obj.center);
+  //d; direction term
+  vector_t d = observer.dir;
+  //s; start term
+  vector_t s = observer.start);
 
-  //radius squared
-  float radSq = obj.radius*obj.radius;
+  float t;
 
-  //check intersection of ray and plane on which disk lies
-  float a = dot_product((obj.center-const_term),obj.normal)/dot_product(h_term,obj.normal);
-  if (a >= 0){//if ray and plane intersect check if the point of intersection is within radius
-    vector_t lineMinPlane = difference(observer.start,obj.center);
-    vector_t scaled = -1*dot_product(lineMinPlane,obj.radius)/dot_product(observer.dir,obj.radius);
-    intersection = sum(sum(linMinPlane,obj.center),scalar_product(scaled,observer.dir));
-    float distance = distance(intersection,obj.center);
-    if (distance <= radSq) return 1;
+//if n dot d is 0, vector is tangent to disk - doesn't count
+  if(dot_product(n,d)==0){
+    return 0;
+  }else{
+
+    //calculate t using formula derived in latex doc
+    t = (dot_product(n,difference(c-s)))/(dot_product(n,d));
+
+    //if t ia negative, vector points away from disk
+    if(t<0){
+      return 0;
+    } else{
+
+      //find p and check distance from center
+      vector_t p = sum(s+scalar_product(t,d));
+      double dist = distance(obj.center,p);
+
+      if(dist<=obj.radius){
+	intersection = p;
+	return 1;
+      }
+      
+    }
+
   }
   
   return 0;
@@ -64,6 +79,9 @@ int ray_disk_intersection(ray_t observer, disk_t obj, vector_t *intersection) {
 //Otherwise, populate 'intersection' with the point of intersection and return 1
 int ray_cylinder_intersection(ray_t observer, cylinder_t obj, vector_t *intersection) {
   //Question 5: Modify this function to compute an intersection
+
+  
+  
   return 0;
 }
 
