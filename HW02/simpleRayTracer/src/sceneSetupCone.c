@@ -21,7 +21,7 @@ scene_t *sceneSetup(){
   int Nmaterials = 64;
   material_t *materials = (material_t*) calloc(Nmaterials, sizeof(material_t));
 
-  // base material - highly reflective, non-refracting
+    // base material - non-reflective, refracting
   materials[0].diffuse.red   = 1;
   materials[0].diffuse.green = 1;
   materials[0].diffuse.blue  = 1;
@@ -29,8 +29,8 @@ scene_t *sceneSetup(){
   materials[0].eta = 1;
   materials[0].refraction = 0;
 
-  materials[0].info.refractor = 0;
-  materials[0].info.reflector = 1;
+  materials[0].info.refractor = 1;
+  materials[0].info.reflector = 0;
   materials[0].info.emitter = 0;
 
   // randomly generate rest of materials
