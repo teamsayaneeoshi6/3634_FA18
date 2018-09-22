@@ -65,10 +65,10 @@ scene_t *sceneSetup(){
   triangle_t *triangles;
   readPlyModel("bunny.ply", &Ntriangles, &triangles);
 
-  int Nbunny = 10;   // will use 10 copies of bunny
-  int Nspheres = 100; // 100 random spheres
-  int Ncones = 20;    // 20 random cones
-  int Ncylinders = 20;// 20 random cylinders
+  int Nbunny = 0;   // will use 0 copies of bunny
+  int Nspheres = 0; // 0 random spheres
+  int Ncones = 0;    // 0 random cones
+  int Ncylinders = 0;// 0 random cylinders
   int Nrectangles = 1;// 1  ground plane rectangle
 
   int Nshapes = Nspheres + Nbunny*Ntriangles + Ncones + 3*Ncylinders + Nrectangles; // each cylinder has two end disks
