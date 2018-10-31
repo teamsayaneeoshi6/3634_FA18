@@ -54,7 +54,7 @@ int testpoint(complex_t c){
 // record the  iteration counts in the count array
 void mandelbrot(int Nre, int Nim, complex_t cmin, complex_t dc, float *count){ 
 
-  #pragma omp for{
+  #pragma omp for
   for(int n=0;n<Nim;++n){
     for(int m=0;m<Nre;++m){
       complex_t c;
@@ -65,7 +65,6 @@ void mandelbrot(int Nre, int Nim, complex_t cmin, complex_t dc, float *count){
       count[m+n*Nre] = (float) testpoint(c);
     }
   }
-	}
 }
 
 int main(int argc, char **argv){
