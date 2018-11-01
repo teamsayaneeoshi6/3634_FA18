@@ -7,10 +7,10 @@ CC	= mpecc
 LD	= mpecc
 
 # compiler flags to be used (set to compile with debugging on)
-CFLAGS = -I$(HDRDIR)  -Ddfloat=double -DdfloatString='"%lg"' -g -O3 -L$MPE_LIB -llmpe -lmpe -lm -mpilog -lpthread -lstdc++ -mpicc='mpiCC'
+CFLAGS = -I$(HDRDIR)  -Ddfloat=double -DdfloatString='"%lg"' -g -O3 -L$MPE_LIB -llmpe -lmpe -lm -mpilog -lpthread -lstdc++ -mpicc='mpic++'
 
 # link flags to be used 
-LDFLAGS	= -g -O3 -L$MPE_LIB -llmpe -lmpe -lm -mpilog -lpthread -lstdc++ -mpicc='mpiCC'
+LDFLAGS	= -g -O3 -L$MPE_LIB -llmpe -lmpe -lm -mpilog -lpthread -lstdc++ -mpicc='mpic++'
 
 # libraries to be linked in
 LIBS	=  -lm 

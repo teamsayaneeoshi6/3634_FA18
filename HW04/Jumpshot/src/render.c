@@ -123,6 +123,7 @@ void renderKernel(const int NI,
       img[(I + (NJ-1-J)*NI)*3 + 1] = (unsigned char)min(c.green*255.0f, 255.0f);
       img[(I + (NJ-1-J)*NI)*3 + 2] = (unsigned char)min( c.blue*255.0f, 255.0f);
     }
-    MPI_Barrier(MPI_COMM_WORLD);
+    
   }
+  MPI_Barrier(MPI_COMM_WORLD);
 }
