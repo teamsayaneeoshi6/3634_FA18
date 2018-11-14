@@ -18,10 +18,8 @@ int main(int argc, char **argv){
 
   //srand48(12345);
 
-  double start = omp_get_wtime();
-
 #pragma omp parallel reduction(+:Ninside)
-  {
+
   struct drand48_data buffer;
   srand48_r(rank,&buffer);
 
@@ -33,14 +31,14 @@ int main(int argc, char **argv){
       ++Ninside;
     }
   }
-  }
-  double end = omp_get_wtime();
+
+
+  //Did not seem to run faster with 4 threads vs 1
+  //Answer more accurate
 
   estpi = 4.*(Ninside/((double)Ntests*Nthreads));
 
   printf("estPi = %lf\n", estpi);
-  printf("elapsed: %lf\n",end-start);
-  printf("num ranks: %d\n",Nthreads);
 
   exit(0);
   return 0;
