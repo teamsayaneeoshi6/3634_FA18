@@ -97,16 +97,16 @@ int main(int argc, char **argv){
   dc.i = (cmax.i-cmin.i)/(Nim-1);
 
   // replace with omp wtime 
-  clock_t start = omp_get_wtime(); //start time in CPU cycles
+  double start = omp_get_wtime(); //start time in CPU cycles
 
   // compute mandelbrot set
   mandelbrot(Nre, Nim, cmin, dc, count); 
 
   // replace with omp wtime 
-  clock_t end = omp_get_wtime(); //start time in CPU cycles
+  double end = omp_get_wtime(); //start time in CPU cycles
   
   // print elapsed time
-  printf("elapsed = %f\n", ((double)(end-start))/CLOCKS_PER_SEC);
+  printf("elapsed = %lf\n",end-start);
   
   // output mandelbrot to png format image
   printf("Printing mandelbrot.ppm...");
