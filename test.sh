@@ -7,9 +7,9 @@
 
 cd $PBS_0_WORKDIR
 
-module purge; module load gcc lm
+module purge; module load lm cuda
 
-gcc -O3 -o mandelbrot cudaMandelbrot.cu -lm
+nvcc -o mandelbrot cudaMandelbrot.cu -lm
 
 for i in `seq 1 20`
 do
