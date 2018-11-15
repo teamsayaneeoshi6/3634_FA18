@@ -54,7 +54,7 @@ int testpoint(complex_t c){
 // record the  iteration counts in the count array
 void mandelbrot(int Nre, int Nim, complex_t cmin, complex_t dc, float *count){ 
 
-  #pragma omp for
+  #pragma omp parallel for
   for(int n=0;n<Nim;++n){
     for(int m=0;m<Nre;++m){
       complex_t c;
@@ -75,13 +75,14 @@ int main(int argc, char **argv){
   int Nre = atoi(argv[1]);
   int Nim = atoi(argv[2]);
   int Nthreads = atoi(argv[3]);
+  omp_set_num_threads(Nthreads);
 
   // storage for the iteration counts
   float *count = (float*) malloc(Nre*Nim*sizeof(float));
 
   // Parameters for a bounding box for "c" that generates an interesting image
   const float centRe = -.759856, centIm= .125547;
-  const float diam  = 0.151579;
+  const float diam  = 0.07;
 
   complex_t cmin; 
   complex_t cmax;
