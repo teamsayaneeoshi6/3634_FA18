@@ -87,9 +87,9 @@ int main(int argc, char *argv[]){
     /* sort objects into grid */
     gridPopulate(grid, scene->Nshapes, shapes);
 	cudaMalloc(&c_shapes, scene->Nshapes);
-	cudaMemcpy(shapes, c_shapes, scene->Nshapes, cudaMemcpyDeviceToHost);
+	cudaMemcpy(shapes, c_shapes, scene->Nshapes,cudaMemcpyDeviceToHost);
 	cudaMalloc(&c_bboxes, grid.scene->boxCount);
-	cudaMemcpy(bboxes, c_bboxes, grid.scene->boxCount, cudaMemcpyDeviceToHost);
+	cudaMemcpy(bboxes, c_bboxes, grid.scene->boxCount,cudaMemcpyDeviceToHost);
 
     /* start timer */
     cudaEvent_t start = clock();
